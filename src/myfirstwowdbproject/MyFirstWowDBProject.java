@@ -43,7 +43,9 @@ public class MyFirstWowDBProject {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM `cb11studentsmarks`.`students`;");
             while(resultSet.next()) {
-                System.out.println("Id: " + resultSet.getString(1) + "\tFirst Name: " + resultSet.getString(2) + "\tLast Name: " + resultSet.getString(3));
+                System.out.println("Id: " + resultSet.getString(1)           + 
+                                   "\tFirst Name: " + resultSet.getString(2) + 
+                                   "\tLast Name: " + resultSet.getString(3));
             }
             
         } catch (SQLException ex) {
