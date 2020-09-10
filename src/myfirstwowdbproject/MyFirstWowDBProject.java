@@ -8,6 +8,7 @@ package myfirstwowdbproject;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -36,17 +37,27 @@ public class MyFirstWowDBProject {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
+        ResultSetMetaData rsmd = null;
         
         try {
             connection = DriverManager.getConnection(dbProject.createJDBCConnectionString(), 
                                                      dbProject.username, dbProject.password);
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM `cb11studentsmarks`.`students`;");
+            rsmd = resultSet.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            System.out.println("Number of fields: " + columnsNumber);
             while(resultSet.next()) {
                 System.out.println("Id: " + resultSet.getString(1)           + 
                                    "\tFirst Name: " + resultSet.getString(2) + 
                                    "\tLast Name: " + resultSet.getString(3));
             }
+            int insertCount = statement.executeUpdate("INSERT INTO students(fname, lname) VALUES ('Manolis', 'Kokovikos');");
+            System.out.println("Rows inserted : " + insertCount);
+            
+            resultSet.close();
+            statement.close();
+            connection.close();
             
         } catch (SQLException ex) {
             Logger.getLogger(MyFirstWowDBProject.class.getName()).log(Level.SEVERE, null, ex);
