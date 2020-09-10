@@ -43,6 +43,7 @@ public class MyFirstWowDBProject {
             connection = DriverManager.getConnection(dbProject.createJDBCConnectionString(), 
                                                      dbProject.username, dbProject.password);
             statement = connection.createStatement();
+            // executeQuery - SELECT -> resultSet
             resultSet = statement.executeQuery("SELECT * FROM `cb11studentsmarks`.`students`;");
             rsmd = resultSet.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
@@ -52,6 +53,7 @@ public class MyFirstWowDBProject {
                                    "\tFirst Name: " + resultSet.getString(2) + 
                                    "\tLast Name: " + resultSet.getString(3));
             }
+            // executeUpdate - INSERT, UPDATE, DELETE -> int count
             int insertCount = statement.executeUpdate("INSERT INTO students(fname, lname) VALUES ('Manolis', 'Kokovikos');");
             System.out.println("Rows inserted : " + insertCount);
             
