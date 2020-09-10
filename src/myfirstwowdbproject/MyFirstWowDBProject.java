@@ -6,8 +6,12 @@
 package myfirstwowdbproject;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,9 +32,23 @@ public class MyFirstWowDBProject {
         // connect to the database
         // run (call) a stored procedure
         // or run a simple SQL query (SELECT)
+        MyFirstWowDBProject dbProject = new MyFirstWowDBProject();
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
+        
+        try {
+            connection = DriverManager.getConnection(dbProject.createJDBCConnectionString(), 
+                                                     dbProject.username, dbProject.password);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM `cb11studentsmarks`.`students`;");
+            while(resultSet.next()) {
+                System.out.println("Id: " + resultSet.getString(1) + "\tFirst Name: " + resultSet.getString(2) + "\tLast Name: " + resultSet.getString(3));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MyFirstWowDBProject.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
     }
