@@ -18,12 +18,12 @@ import java.util.logging.Logger;
  * @author mac
  */
 public class Database {
-    private String serverIP;       // = "5.189.135.166"; // ra1.anystream.eu
+    private String serverIP;       // = "..........";    // ......
                                    // = "127.0.0.1";     // localhost  
     private String srvPort;        // = "3011";
     private String databaseName;   // = "cb11studentsmarks";
     private String username;       // = "root";
-    private String password;       // = "AFDEmp_MySQL1";
+    private String password;       // = ".......";
     private Connection connection;
     private Statement statement;
     private ResultSet resultSet;
