@@ -20,12 +20,12 @@ import java.util.logging.Logger;
  * @author mac
  */
 public class MyFirstWowDBProject {
-    private String serverIP   = "5.189.135.166"; // ra1.anystream.eu
+    private String serverIP   = "........"; // ra1.anystream.eu
                            // "127.0.0.1" // localhost  
     private String srvPort  = "3011";
     private String databaseName = "cb11studentsmarks";
     private String username = "root";
-    private String password = "AFDEmp_MySQL1";
+    private String password = "........";
 
     /**
      * @param args the command line arguments
