@@ -6,6 +6,7 @@
 package myfirstwowdbproject;
 
 import dbhelpers.Database;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -40,11 +41,13 @@ public class MyFirstWowDBProject {
         ResultSet resultSet = null;
         ResultSetMetaData rsmd = null;
         
-        resultSet = executeQuery("SELECT * FROM `cb11studentsmarks`.`students`;");
-        boolean rsOK = printResultSet(resultSet);
-        int count = executeUpdate("INSERT INTO students(fname, lname) VALUES ('Manolis', 'Kokovikos');");
-        resultSet = executeQuery("SELECT * FROM `cb11studentsmarks`.`students`;");
-        rsOK = printResultSet(resultSet);
+        callStoredProcedureGetAllStudents("CALL getAllStudentsGKP();");
+       
+//        resultSet = executeQuery("SELECT * FROM `cb11studentsmarks`.`students`;");
+//        boolean rsOK = printResultSet(resultSet);
+//        int count = executeUpdate("INSERT INTO students(fname, lname) VALUES ('Manolis', 'Kokovikos');");
+//        resultSet = executeQuery("SELECT * FROM `cb11studentsmarks`.`students`;");
+//        rsOK = printResultSet(resultSet);
         
 //        try {
 //            connection = DriverManager.getConnection(dbProject.createJDBCConnectionString(), 
@@ -75,8 +78,29 @@ public class MyFirstWowDBProject {
         
     }
     
-    public static ResultSet executeQuery(String sql) {
+    public static void callStoredProcedureGetAllStudents(String sql) {
         MyFirstWowDBProject dbProject = new MyFirstWowDBProject();
+        Database db = new Database(dbProject.serverIP, dbProject.srvPort, dbProject.databaseName, dbProject.username, dbProject.password);
+        Connection conn = db.createConnection();
+        try {
+            CallableStatement callableStatement = conn.prepareCall(sql); // CALL getAllStudentsGKP();
+            ResultSet rs = callableStatement.executeQuery();
+            while(rs.next()) {
+                System.out.println("Id: "           + rs.getString(1)           +
+                        "\tFirst Name: " + rs.getString(2) +
+                        "\tLast Name: "  + rs.getString(3));
+            }
+            rs.close();
+            callableStatement.close();
+            conn.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MyFirstWowDBProject.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static ResultSet executeQuery(String sql) {
+        MyFirstWowDBProject dbProject = new MyFirstWowDBProject(); 
         ResultSet rs = null;
         Database db = new Database(dbProject.serverIP, dbProject.srvPort, dbProject.databaseName, dbProject.username, dbProject.password);
         rs = db.connectAndExecuteQuery(sql);
@@ -85,7 +109,6 @@ public class MyFirstWowDBProject {
     
     public static int executeUpdate(String sql) {
         MyFirstWowDBProject dbProject = new MyFirstWowDBProject();
-        ResultSet rs = null;
         Database db = new Database(dbProject.serverIP, dbProject.srvPort, dbProject.databaseName, dbProject.username, dbProject.password);
         int count = db.connectAndExecuteUpdate(sql);
         return(count);
