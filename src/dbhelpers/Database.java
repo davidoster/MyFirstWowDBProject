@@ -79,6 +79,7 @@ public class Database {
         }
     }
     
+    // default constructor 
     public ResultSet connectAndExecuteQuery(String serverIP, String srvPort, String databaseName, String username, String password, String sql) {
         this.setServerIP(serverIP);
         this.setSrvPort(srvPort);
@@ -91,6 +92,7 @@ public class Database {
         return(this.resultSet);
     }
     
+    // overoaded constructor
     public ResultSet connectAndExecuteQuery(String sql) {
         this.createConnection();
         this.createStatement();
