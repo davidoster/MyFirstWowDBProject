@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dbhelpers;
 
 import java.sql.Connection;
@@ -18,8 +13,9 @@ import java.util.logging.Logger;
  * @author mac
  */
 public class Database {
+
     private String serverIP;       // = "..........";    // ......
-                                   // = "127.0.0.1";     // localhost  
+    // = "127.0.0.1";     // localhost  
     private String srvPort;        // = "3011";
     private String databaseName;   // = "cb11studentsmarks";
     private String username;       // = "root";
@@ -38,47 +34,47 @@ public class Database {
         this.username = username;
         this.password = password;
     }
-    
+
     public Connection createConnection() {
         try {
             this.connection = DriverManager.getConnection(getConnectionString(), this.username, this.password);
-            return(this.connection);
+            return (this.connection);
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            return(null);
+            return (null);
         }
     }
-    
+
     public Statement createStatement() {
         try {
             this.statement = this.connection.createStatement();
-            return(this.statement);
+            return (this.statement);
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            return(null);
+            return (null);
         }
     }
-    
+
     public ResultSet executeQuery(String sql) {
         try {
             this.resultSet = this.statement.executeQuery(sql);
-            return(this.resultSet);
+            return (this.resultSet);
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            return(null);
+            return (null);
         }
     }
 
     public int executeUpdate(String sql) {
         try {
             int count = this.statement.executeUpdate(sql);
-            return(count);
+            return (count);
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            return(-1);
+            return (-1);
         }
     }
-    
+
     // default constructor 
     public ResultSet connectAndExecuteQuery(String serverIP, String srvPort, String databaseName, String username, String password, String sql) {
         this.setServerIP(serverIP);
@@ -89,17 +85,17 @@ public class Database {
         this.createConnection();
         this.createStatement();
         this.resultSet = this.executeQuery(sql);
-        return(this.resultSet);
+        return (this.resultSet);
     }
-    
+
     // overoaded constructor
     public ResultSet connectAndExecuteQuery(String sql) {
         this.createConnection();
         this.createStatement();
         this.resultSet = this.executeQuery(sql);
-        return(this.resultSet);
+        return (this.resultSet);
     }
-    
+
     public int connectAndExecuteUpdate(String serverIP, String srvPort, String databaseName, String username, String password, String sql) {
         this.setServerIP(serverIP);
         this.setSrvPort(srvPort);
@@ -109,17 +105,16 @@ public class Database {
         this.createConnection();
         this.createStatement();
         int count = this.executeUpdate(sql);
-        return(count);
+        return (count);
     }
-    
+
     public int connectAndExecuteUpdate(String sql) {
         this.createConnection();
         this.createStatement();
         int count = this.executeUpdate(sql);
-        return(count);
+        return (count);
     }
-    
-        
+
     public String getServerIP() {
         return serverIP;
     }
@@ -159,16 +154,16 @@ public class Database {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public String getConnectionString() {
         String value = "jdbc:mysql://" + this.serverIP + ":" + this.srvPort + "/" + this.databaseName + "?zeroDateTimeBehavior=convertToNull";
-        
-        return(value);
+
+        return (value);
     }
 
     @Override
     public String toString() {
         return "Database{" + "serverIP=" + serverIP + ", srvPort=" + srvPort + ", databaseName=" + databaseName + ", username=" + username + ", password=" + password + '}';
     }
-        
+
 }
